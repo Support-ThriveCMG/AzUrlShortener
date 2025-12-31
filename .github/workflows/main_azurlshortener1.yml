@@ -10,38 +10,36 @@ on:
   workflow_dispatch:
 
 env:
-  AZURE_FUNCTIONAPP_PACKAGE_PATH: 'src/AzUrlShortener'
-  DOTNET_VERSION: '8.0.x' # set this to the dotnet version to use
+  DOTNET_VERSION: '8.0.x'
 
 jobs:
   build-and-deploy:
     runs-on: windows-latest
     
     steps:
-      - name: 'Checkout GitHub Action'
+      - name: Checkout GitHub Action
         uses: actions/checkout@v4
 
-      - name: Setup DotNet ${{ env.DOTNET_VERSION }} Environment
+      - name: Setup DotNet
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
-      - name: 'Resolve Project Dependencies Using Dotnet'
+      - name: Restore and Publish Function App
         shell: pwsh
         run: |
           dotnet restore src/AzUrlShortener.sln
           dotnet publish src/FunctionsLight/FunctionsLight.csproj `
             -c Release `
             -o publish
-      
-      - name: 'Run Azure Functions Action'
+
+      - name: Deploy to Azure Functions
         uses: Azure/functions-action@v1
-        id: fa
         with:
           app-name: 'AzUrlShortener1'
           slot-name: 'Production'
-          package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
-
+          package: publish
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_C00C8A2B51154E169050B7D63AABD309 }}
+
 
 
