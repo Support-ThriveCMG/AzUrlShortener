@@ -33,8 +33,7 @@ jobs:
           -o "${{ env.PUBLISH_PATH }}"
 
     - name: Inspect publish output
-      run: |
-        dir %PUBLISH_PATH%
+      run: dir "${{ env.PUBLISH_PATH }}"
 
     - name: Deploy to Azure Function App (ZIP Deploy)
       uses: Azure/functions-action@v1
