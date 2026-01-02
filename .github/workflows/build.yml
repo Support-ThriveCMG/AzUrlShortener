@@ -1,18 +1,18 @@
-name: Build
+name: Build and Deploy Azure Function
 
 on:
   push:
     branches:
       - main
       - v-next
-  pull_request:
-    branches:
-      - main
-      - v-next
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
+
+    env:
+      FUNCTION_PROJECT: src/AzUrlShortener/AzUrlShortener.csproj
+      PUBLISH_PATH: publish
 
     steps:
     - name: Checkout repository
@@ -21,16 +21,20 @@ jobs:
     - name: Set up .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: '9.0.x' # Adjust the version as needed
+        dotnet-version: '8.0.x'
 
-    - name: Clean up previous builds
-      run: dotnet clean src/AzUrlShortener.sln
+    - name: Restore
+      run: dotnet restore ${{ env.FUNCTION_PROJECT }}
 
-    - name: Install .NET Aspire workload
-      run: dotnet workload update && dotnet workload install aspire
+    - name: Publish Azure Function
+      run: |
+        dotnet publish ${{ env.FUNCTION_PROJECT }} \
+          -c Release \
+          -o ${{ env.PUBLISH_PATH }}
 
-    - name: Restore dependencies
-      run: dotnet restore src/AzUrlShortener.sln
-
-    - name: Build solution
-      run: dotnet build src/AzUrlShortener.sln --no-restore --configuration Release
+    - name: Deploy to Azure Function App
+      uses: Azure/functions-action@v1
+      with:
+        app-name: AzUrlShortener1
+        publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
+        package: ${{ env.PUBLISH_PATH }}
