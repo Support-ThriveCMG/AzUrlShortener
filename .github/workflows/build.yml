@@ -1,4 +1,4 @@
-name: Build and Deploy Azure Function
+name: Build and Deploy Azure Function (Windows)
 
 on:
   push:
@@ -8,33 +8,37 @@ on:
 
 jobs:
   build-and-deploy:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     env:
-      FUNCTION_PROJECT: src/FunctionsLight/Cloud5mins.ShortenerTools.FunctionsLight.csproj
+      FUNCTION_PROJECT: src\FunctionsLight\Cloud5mins.ShortenerTools.FunctionsLight.csproj
       PUBLISH_PATH: publish
 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    - name: Set up .NET
+    - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '8.0.x'
 
     - name: Restore
-      run: dotnet restore ${{ env.FUNCTION_PROJECT }}
+      run: dotnet restore "%FUNCTION_PROJECT%"
 
     - name: Publish Azure Function
-      run: dotnet publish ${{ env.FUNCTION_PROJECT }} -c Release -o ${{ env.PUBLISH_PATH }}
+      run: |
+        dotnet publish "%FUNCTION_PROJECT%" ^
+          -c Release ^
+          -o "%PUBLISH_PATH%"
 
     - name: Inspect publish output
-      run: ls -la ${{ env.PUBLISH_PATH }}
+      run: |
+        dir %PUBLISH_PATH%
 
-    - name: Deploy to Azure Function App
+    - name: Deploy to Azure Function App (ZIP Deploy)
       uses: Azure/functions-action@v1
       with:
         app-name: AzUrlShortener1
         publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
-        package: ${{ env.PUBLISH_PATH }}/
+        package: publish
