@@ -12,7 +12,7 @@ jobs:
 
     env:
       FUNCTION_PROJECT: src/FunctionsLight/Cloud5mins.ShortenerTools.FunctionsLight.csproj
-      PUBLISH_PATH: AzUrlShortener1
+      PUBLISH_PATH: publish
 
     steps:
     - name: Checkout repository
