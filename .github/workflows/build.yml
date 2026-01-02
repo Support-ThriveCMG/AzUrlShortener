@@ -28,8 +28,8 @@ jobs:
 
     - name: Publish Azure Function
       run: |
-        dotnet publish "${{ env.FUNCTION_PROJECT }}" ^
-          -c Release ^
+        dotnet publish "${{ env.FUNCTION_PROJECT }}" `
+          -c Release `
           -o "${{ env.PUBLISH_PATH }}"
 
     - name: Inspect publish output
