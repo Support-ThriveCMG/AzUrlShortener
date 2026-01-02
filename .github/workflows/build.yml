@@ -31,6 +31,11 @@ jobs:
         dotnet publish ${{ env.FUNCTION_PROJECT }} \
           -c Release \
           -o ${{ env.PUBLISH_PATH }}
+          
+    - name: Azure Login
+      uses: azure/login@v2
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
 
     - name: Deploy to Azure Function App
       uses: Azure/functions-action@v1
