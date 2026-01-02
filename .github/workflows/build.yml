@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      FUNCTION_PROJECT: src/FunctionsLight/Cloud5mins.ShortenerTools.Functions.csproj
+      FUNCTION_PROJECT: src/FunctionsLight/Cloud5mins.ShortenerTools.FunctionsLight.csproj
       PUBLISH_PATH: publish
 
     steps:
