@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Cloud5mins.ShortenerTools.Core.Service;
 using Azure.Data.Tables;
+using Microsoft.Azure.Functions.Worker;
 
 namespace Cloud5mins.ShortenerTools.Functions
 {
