@@ -24,13 +24,13 @@ jobs:
         dotnet-version: '8.0.x'
 
     - name: Restore
-      run: dotnet restore "%FUNCTION_PROJECT%"
+      run: dotnet restore "${{ env.FUNCTION_PROJECT }}"
 
     - name: Publish Azure Function
       run: |
-        dotnet publish "%FUNCTION_PROJECT%" ^
+        dotnet publish "${{ env.FUNCTION_PROJECT }}" ^
           -c Release ^
-          -o "%PUBLISH_PATH%"
+          -o "${{ env.PUBLISH_PATH }}"
 
     - name: Inspect publish output
       run: |
