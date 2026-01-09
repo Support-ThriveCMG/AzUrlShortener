@@ -30,7 +30,7 @@ jobs:
       run: |
         dotnet publish "${{ env.FUNCTION_PROJECT }}" `
           -c Release `
-          -o "${{ env.PUBLISH_PATH }}"
+          -o .
 
     - name: Inspect publish output
       run: dir "${{ env.PUBLISH_PATH }}"
