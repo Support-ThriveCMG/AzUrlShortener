@@ -44,7 +44,6 @@ jobs:
       with:
         auth-type: SERVICE_PRINCIPAL
         creds: ${{ secrets.AZURE_CREDENTIALS }}
-        allow-no-subscriptions: true
 
     - name: Deploy using Run-From-Package
       run: |
