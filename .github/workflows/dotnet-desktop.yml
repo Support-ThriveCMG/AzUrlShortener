@@ -33,7 +33,7 @@ jobs:
           -o .
 
     - name: Inspect publish output
-      run: dir "${{ env.PUBLISH_PATH }}"
+      run: dir .
 
     - name: Deploy to Azure Function App
       uses: Azure/functions-action@v1
