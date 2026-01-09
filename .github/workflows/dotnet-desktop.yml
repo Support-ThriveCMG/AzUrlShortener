@@ -42,7 +42,9 @@ jobs:
     - name: Azure Login
       uses: azure/login@v1
       with:
+        auth-type: ${{ secrets.AZURE_PRINCIPALID }}
         creds: ${{ secrets.AZURE_CREDENTIALS }}
+        allow-no-subscriptions: true
 
     - name: Deploy using Run-From-Package
       run: |
