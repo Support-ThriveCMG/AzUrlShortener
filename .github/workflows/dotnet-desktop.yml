@@ -39,11 +39,6 @@ jobs:
     - name: Inspect publish output
       run: dir "${{ env.PUBLISH_PATH }}"
 
-    - name: Azure Login
-      uses: azure/login@v1
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
-
     - name: Deploy using Run-From-Package
       run: |
         az functionapp deployment source config-zip `
