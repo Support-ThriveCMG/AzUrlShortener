@@ -42,7 +42,7 @@ jobs:
     - name: Azure Login
       uses: azure/login@v1
       with:
-        auth-type: ${{ secrets.AZURE_PRINCIPALID }}
+        auth-type: SERVICE_PRINCIPAL
         creds: ${{ secrets.AZURE_CREDENTIALS }}
         allow-no-subscriptions: true
 
