@@ -45,11 +45,15 @@ namespace Cloud5mins.ShortenerTools.Functions
 
             var host = $"{req.Url.Scheme}://{req.Url.Host}";
 
-            var shortRequest = new ShortRequest(request.Url);
-
+            var shortRequest = new ShortRequest
+            {
+                Url = request.Url
+            };
+            
             ShortResponse result = await urlService.Create(
                 shortRequest,
                 host);
+
 
             var response = req.CreateResponse(HttpStatusCode.OK);
             await response.WriteAsJsonAsync(result);
