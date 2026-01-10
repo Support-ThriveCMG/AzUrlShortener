@@ -42,7 +42,7 @@ namespace Cloud5mins.ShortenerTools.Functions
                 _logger,
                 new AzStrorageTablesService(_tblClient));
 
-            var shortRequest = new ShortRequest
+            var shortRequest = new ShortResponse
             {
                 ShortCode = shortCode,
                 LongUrl = request.Url
