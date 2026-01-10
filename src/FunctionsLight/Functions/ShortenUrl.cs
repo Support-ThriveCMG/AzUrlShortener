@@ -1,11 +1,13 @@
 using Cloud5mins.ShortenerTools.Core.Services;
 using Cloud5mins.ShortenerTools.Core.Service;
+using Cloud5mins.ShortenerTools.Core.Messages;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
+using Azure.Data.Tables;
 using System.Net;
 using System.Text.Json;
-using Azure.Data.Tables;
+using System.IO;
 
 namespace Cloud5mins.ShortenerTools.Functions
 {
@@ -40,13 +42,21 @@ namespace Cloud5mins.ShortenerTools.Functions
                 _logger,
                 new AzStrorageTablesService(_tblClient));
 
-            await urlService.Create(shortCode, request.Url);
+            var shortRequest = new ShortRequest
+            {
+                ShortCode = shortCode,
+                LongUrl = request.Url
+            };
+
+            await urlService.Create(shortRequest);
+
+            var baseUrl = $"{req.Url.Scheme}://{req.Url.Host}";
 
             var response = req.CreateResponse(HttpStatusCode.OK);
             await response.WriteAsJsonAsync(new
             {
                 shortCode,
-                shortUrl = $"https://azurlshortener1.azurewebsites.net/api/{shortCode}"
+                shortUrl = $"{baseUrl}/api/{shortCode}"
             });
 
             return response;
