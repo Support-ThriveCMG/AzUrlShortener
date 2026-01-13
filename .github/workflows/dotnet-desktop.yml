@@ -11,7 +11,7 @@ jobs:
     runs-on: windows-latest
 
     env:
-      FUNCTION_PROJECT: src\FunctionsLight\Cloud5mins.ShortenerTools.FunctionsLight.csproj
+      FUNCTION_PROJECT: src\api
       PUBLISH_PATH: publish
 
     steps:
